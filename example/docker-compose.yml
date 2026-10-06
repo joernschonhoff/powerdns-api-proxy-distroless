@@ -1,7 +1,7 @@
 services:
   pdns-auth-init-db:
     container_name: pdns-auth-init-db
-    image: registry.gitlab.com/joern_schonhoff/pdns-auth-init-db:5.1.4
+    image: registry.gitlab.com/joern_schonhoff/pdns-auth-init-db:5.1.4@sha256:6e0e658fc1e952a8bfaa62ee5ceffe28c7f619b6426c8087c0ec30564cf0756a
     env_file:
       - ./.env.example
     environment:
@@ -12,7 +12,7 @@ services:
       - pdns-auth-network
   pdns-auth-init-conf:
     container_name: pdns-auth-init-conf
-    image: registry.gitlab.com/joern_schonhoff/pdns-auth-init-conf:0.1.0
+    image: registry.gitlab.com/joern_schonhoff/pdns-auth-init-conf:0.1.0@sha256:5410b3f7ff0b35615b95a59246298d98e7d4d26b143f7fe46bdbf03d8805429b
     env_file:
       - ./.env.example
     volumes:
@@ -25,7 +25,7 @@ services:
       - pdns-auth-network
   pdns-auth:
     container_name: pdns-auth
-    image: registry.gitlab.com/joern_schonhoff/pdns-auth-distroless:5.1.4
+    image: registry.gitlab.com/joern_schonhoff/pdns-auth-distroless:5.1.4@sha256:15eb83de92c0823835e9d494e2130ae9a627f6818c1aa4025bba04f9ad85e321
     env_file:
       - ./.env.example
     ports:

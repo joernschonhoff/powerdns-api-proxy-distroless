@@ -1,0 +1,20 @@
+---
+# Example configuration for powerdns-api-proxy.
+# See https://github.com/akquinet/powerdns-api-proxy#configuration for the full reference.
+
+# Upstream PowerDNS Authoritative API (the pdns-auth service from this compose stack).
+# Note: pdns_api_url must NOT include the "/api/v1" path (the proxy appends it itself)
+# and must end with a trailing slash.
+pdns_api_url: "http://pdns-auth:8081/"
+pdns_api_token: "secret_api_key" # Matches PDNS_API_KEY in .env.example
+pdns_api_verify_ssl: false # Plain HTTP within the compose network
+
+environments:
+  - name: example-env
+    description: "Example token with admin rights on example.com"
+    # token_sha512 is the SHA-512 hash of the plaintext token below.
+    # Plaintext token (for testing only, do not use in production): example_api_proxy_token_change_me
+    token_sha512: "0f0aaa0b9511f684c8d3d51590c280bdc04111104bbc6d510f655a5cd2255828cb046db1f0f70112158c652ed509797f40b594aa94dceef5e5313b5e3d3e2f99"
+    zones:
+      - name: "example.com"
+        admin: true # Allows creating/deleting the zone itself

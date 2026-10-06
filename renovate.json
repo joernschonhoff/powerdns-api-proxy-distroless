@@ -1,0 +1,52 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended"
+  ],
+  "pinDigests": true,
+  "automerge": false,
+  "prConcurrentLimit": 2,
+  "semanticCommits": "enabled",
+  "semanticCommitType": "chore",
+  "semanticCommitScope": "deps",
+  "commitMessageAction": "update",
+  "commitMessageTopic": "{{depName}}",
+  "commitMessageExtra": "to {{newVersion}}",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Extract powerdns-api-proxy version from VERSION file",
+      "managerFilePatterns": [
+        "/^VERSION$/"
+      ],
+      "matchStrings": [
+        "^(?<currentValue>v\\d+\\.\\d+\\.\\d+)$"
+      ],
+      "datasourceTemplate": "github-releases",
+      "depNameTemplate": "akquinet/powerdns-api-proxy"
+    }
+  ],
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch", "pin"],
+      "automerge": true
+    },
+    {
+      "description": "powerdns-api-proxy version - update VERSION file",
+      "matchFileNames": [
+        "VERSION"
+      ],
+      "matchDepNames": [
+        "akquinet/powerdns-api-proxy"
+      ],
+      "commitMessageTopic": "powerdns-api-proxy",
+      "groupName": "powerdns-api-proxy"
+    },
+    {
+      "description": "Disable automatic updates for Docker image digests",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "enabled": false
+    }
+  ]
+}

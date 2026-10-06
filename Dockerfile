@@ -47,6 +47,25 @@ RUN chown -R 65532:65532 /runtime
 
 # Stage 2: Create the final distroless image
 FROM ${DISTROLESS_IMAGE} AS final
+
+# Re-declare build arg needed in this stage (ARGs before FROM are scoped to the FROM they precede)
+ARG POWERDNS_API_PROXY_VERSION
+
+# SPDX identifier required by the OCI image-spec for org.opencontainers.image.licenses
+LABEL \
+    org.opencontainers.image.authors="Joern Schonhoff" \
+    org.opencontainers.image.description="powerdns-api-proxy ${POWERDNS_API_PROXY_VERSION} distroless" \
+    org.opencontainers.image.licenses="GPL-3.0-only" \
+    org.opencontainers.image.source="https://gitlab.com/joern_schonhoff/powerdns-api-proxy-distroless" \
+    org.opencontainers.image.title="powerdns-api-proxy-distroless" \
+    org.opencontainers.image.url="https://gitlab.com/joern_schonhoff/powerdns-api-proxy-distroless" \
+    org.opencontainers.image.version="${POWERDNS_API_PROXY_VERSION}"
+    #   org.opencontainers.image.created="FILLED BY BUILD SYSTEM"
+    #   org.opencontainers.image.revision="FILLED BY BUILD SYSTEM"
+
 COPY --from=builder /runtime/ /
+
+EXPOSE 8000/tcp
+
 USER 65532:65532
 ENTRYPOINT [ "/usr/local/bin/python3", "-m", "powerdns_api_proxy" ]

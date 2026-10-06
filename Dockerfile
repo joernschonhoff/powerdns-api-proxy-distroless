@@ -18,7 +18,6 @@ RUN /usr/local/bin/python3 -m pip install --upgrade https://github.com/akquinet/
 # shared libpython it depends on) preserving the original /usr/local prefix layout, so
 # Python's own path-finding logic (relative to the executable) keeps working unmodified.
 RUN PYTHON_VERSION=$(python3 --version | sed -E 's/(Python\s+|\.[0-9]+$)//g') && \
-    echo "${PYTHON_VERSION}" > /python-version && \
     mkdir -p \
         /runtime/usr/local/bin \
         /runtime/usr/local/lib \
@@ -28,11 +27,16 @@ RUN PYTHON_VERSION=$(python3 --version | sed -E 's/(Python\s+|\.[0-9]+$)//g') &&
     && cp -a /usr/local/lib/libpython${PYTHON_VERSION}.so* /runtime/usr/local/lib/
 
 # Find and copy all shared libraries required by the interpreter that are not
-# already provided by the distroless base image (currently only libpython itself,
-# but this keeps working if that ever changes).
-RUN PYTHON_VERSION=$(cat /python-version) && \
+# already provided by the distroless base image. This must include not only the
+# interpreter binary itself, but also every compiled C extension (*.so) shipped by
+# installed packages, since those bring their own shared library dependencies 
+# that distroless does not include.
+RUN PYTHON_VERSION=$(python3 --version | sed -E 's/(Python\s+|\.[0-9]+$)//g') && \
     mkdir -p /runtime/usr/lib/aarch64-linux-gnu && \
-    ldd /usr/local/bin/python${PYTHON_VERSION} \
+    { \
+      ldd /usr/local/bin/python${PYTHON_VERSION}; \
+      find /usr/local/lib/python${PYTHON_VERSION}/site-packages -name '*.so*' -exec ldd {} \; 2>/dev/null; \
+    } \
         | awk '/=>/ {print $3} !/=>/ {if ($1 ~ /^\//) print $1}' \
         | sort -u \
         | xargs -I '{}' readlink -f '{}' \

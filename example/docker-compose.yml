@@ -46,7 +46,7 @@ services:
       - pdns-auth-network
   powerdns-api-proxy:
     container_name: powerdns-api-proxy
-    image: registry.gitlab.com/joern_schonhoff/powerdns-api-proxy-distroless:v1.11.4
+    image: registry.gitlab.com/joern_schonhoff/powerdns-api-proxy-distroless:v1.11.4@sha256:4ef64212473aab727f03d8708576642a4717dca9ef6fedf2c0e91410801f50bb
     environment:
       - PROXY_CONFIG_PATH=/config/config.yml
       - LOG_LEVEL=INFO

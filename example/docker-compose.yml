@@ -25,7 +25,7 @@ services:
       - pdns-auth-network
   pdns-auth:
     container_name: pdns-auth
-    image: registry.gitlab.com/joern_schonhoff/pdns-auth-distroless:5.1.4@sha256:15eb83de92c0823835e9d494e2130ae9a627f6818c1aa4025bba04f9ad85e321
+    image: registry.gitlab.com/joern_schonhoff/pdns-auth-distroless:5.1.5@sha256:1f7258c615817e00069b00d1bedeff8ad69847cf5f206ad0df834eb46b6f486d
     env_file:
       - ./.env.example
     ports:

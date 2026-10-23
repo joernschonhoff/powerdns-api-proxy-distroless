@@ -1,4 +1,4 @@
-ARG DEBIAN_BASE_IMAGE=python:3.14.8-slim-trixie@sha256:f85c5697265c178cc6887276c55fe16cf3d14ca35c3df6a5eab3b360534a55d2
+ARG DEBIAN_BASE_IMAGE=python:3.15.1-slim-trixie@sha256:08275f764e022331c6d3e3ca55d8cce01fa4684b02111adf0445d71806fe7941
 ARG DISTROLESS_IMAGE=gcr.io/distroless/base-debian13:nonroot-5d2a01416bd6e31ecc4c834eb03fc8d3b711a072@sha256:a0d70d6a97cd697d9362bc2aae4a6560dd65817e365d0043b07325a97975dc91
 
 # Stage 1: Build the application in a Debian-based image

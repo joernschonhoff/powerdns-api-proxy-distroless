@@ -1,7 +1,7 @@
 services:
   pdns-auth-init-db:
     container_name: pdns-auth-init-db
-    image: registry.gitlab.com/joern_schonhoff/pdns-auth-init-db:5.1.4@sha256:6e0e658fc1e952a8bfaa62ee5ceffe28c7f619b6426c8087c0ec30564cf0756a
+    image: registry.gitlab.com/joern_schonhoff/pdns-auth-init-db:5.1.5@sha256:8eb7d6a229abca7d3ba8dcc3d991cab1244385dffdc313cfdd928279fcf44f0e
     env_file:
       - ./.env.example
     environment:
